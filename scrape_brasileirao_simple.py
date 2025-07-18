@@ -138,8 +138,6 @@ class BrasileiroScraper:
             teams = teams[:20]
         
         return teams if teams else None
-        
-        return teams if teams else None
     
     def get_current_standings(self):
         """Get current standings by scraping from online sources"""
@@ -257,13 +255,6 @@ class BrasileiroScraper:
         print()
         # Retorna também os scores brutos para uso na tabela do README
         return player_scores, raw_scores
-        print()
-        # Ranking
-        print(f"\n🏅 RANKING:")
-        sorted_players = sorted(player_scores.items(), key=lambda x: x[1], reverse=True)
-        for i, (player, score) in enumerate(sorted_players, 1):
-            print(f"{i}. {player}: {score} pontos")
-        return player_scores
     
 
     def update_readme(self, actual_standings, predictions, raw_scores):
@@ -329,7 +320,7 @@ class BrasileiroScraper:
             for i, (player, score) in enumerate(sorted_players, 1):
                 norm_score = max(0, min(100, round((score - 200) / 2)))
                 medal = "🥇" if i == 1 else "🥈" if i == 2 else "🥉" if i == 3 else f"{i}."
-                results_table.append(f"{medal} **{player}**: {norm_score} pontos (normalizado)")
+                results_table.append(f"{medal} **{player}**: {norm_score} pontos")
 
             # Read current README
             readme_path = "README.md"
