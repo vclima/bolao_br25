@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-17 21:41:17
+**Última Atualização:** 2025-07-17 21:44:32
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
