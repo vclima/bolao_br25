@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-17 21:21:43
+**Última Atualização:** 2025-07-17 21:29:42
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -33,9 +33,6 @@
 🥇 **Victor**: 314 pontos
 🥈 **Julio**: 304 pontos
 🥉 **Luca**: 294 pontos
-
----
-
 ## 📖 Sobre o Projeto
 
 Script em Python que captura em tempo real a classificação do Campeonato Brasileiro 2025 e compara com as previsões dos jogadores para calcular a pontuação do bolão.
