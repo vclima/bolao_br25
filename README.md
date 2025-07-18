@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-17 23:22:28
+**Última Atualização:** 2025-07-17 23:30:15
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -26,7 +26,7 @@
 | Juventude | 18 | 15°(17p) | 12°(14p) | 12°(14p) |
 | Fortaleza | 19 | 8°(9p) | 5°(6p) | 10°(11p) |
 | Sport | 20 | 19°(19p) | 20°(20p) | 16°(16p) |
-| **TOTAL (normalizado 0-100)** | | **57** | **51** | **46** |
+| **TOTAL** | | **314** | **302** | **292** |
 
 ### 🏅 Classificação Final (pontuação normalizada 0-100)
 
