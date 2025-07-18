@@ -255,6 +255,9 @@ class BrasileiroScraper:
             player_scores[player] = norm_score
             print(f"{norm_score:<12}", end="")
         print()
+        # Retorna também os scores brutos para uso na tabela do README
+        return player_scores, raw_scores
+        print()
         # Ranking
         print(f"\n🏅 RANKING:")
         sorted_players = sorted(player_scores.items(), key=lambda x: x[1], reverse=True)
@@ -262,40 +265,41 @@ class BrasileiroScraper:
             print(f"{i}. {player}: {score} pontos")
         return player_scores
     
-    def update_readme(self, actual_standings, predictions, player_scores):
+
+    def update_readme(self, actual_standings, predictions, raw_scores):
         """Update README.md with the latest results"""
         try:
             # Sort players by score (highest first)
-            sorted_players = sorted(player_scores.items(), key=lambda x: x[1], reverse=True)
+            sorted_players = sorted(raw_scores.items(), key=lambda x: x[1], reverse=True)
             player_names = [player[0] for player in sorted_players]
-            
+
             # Generate the results table
             results_table = []
             results_table.append("## 🏆 Resultados Atuais")
             results_table.append("")
             results_table.append(f"**Última Atualização:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
             results_table.append("")
-            
+
             # Create table header with players sorted by score
             header = "| Time | Real |"
             for player in player_names:
                 header += f" {player} |"
             results_table.append(header)
-            
+
             # Create separator
             separator = "|------|------|"
             for _ in player_names:
                 separator += "------|"
             results_table.append(separator)
-            
+
             # Create rows for each team
             for team_data in actual_standings:
                 original_team_name = team_data['team']
                 team_name = self.normalize_team_name(original_team_name)
                 actual_pos = team_data['position']
-                
+
                 row = f"| {original_team_name} | {actual_pos} |"
-                
+
                 for player in player_names:
                     player_predictions = predictions[player]
                     # Find predicted position for this team
@@ -304,28 +308,29 @@ class BrasileiroScraper:
                         if predicted_team == team_name:
                             predicted_pos = int(pos)
                             break
-                    
+
                     if predicted_pos is not None:
                         score = self.calculate_score(predicted_pos, actual_pos)
                         row += f" {predicted_pos}°({score}p) |"
                     else:
                         row += " -- |"
-                
+
                 results_table.append(row)
-            
-            # Add total scores row (pontuação normalizada)
-            total_row = "| **TOTAL (normalizado 0-100)** | |"
+
+            # Add total scores row (pontuação bruta)
+            total_row = "| **TOTAL** | |"
             for player in player_names:
-                total_row += f" **{player_scores[player]}** |"
+                total_row += f" **{raw_scores.get(player, 0)}** |"
             results_table.append(total_row)
             # Add ranking (pontuação normalizada)
             results_table.append("")
             results_table.append("### 🏅 Classificação Final (pontuação normalizada 0-100)")
             results_table.append("")
             for i, (player, score) in enumerate(sorted_players, 1):
+                norm_score = max(0, min(100, round((score - 200) / 2)))
                 medal = "🥇" if i == 1 else "🥈" if i == 2 else "🥉" if i == 3 else f"{i}."
-                results_table.append(f"{medal} **{player}**: {score} pontos (normalizado)")
-            
+                results_table.append(f"{medal} **{player}**: {norm_score} pontos (normalizado)")
+
             # Read current README
             readme_path = "README.md"
             if os.path.exists(readme_path):
@@ -362,7 +367,7 @@ class BrasileiroScraper:
 
             else:
                 print("❌ README.md not found")
-                
+
         except Exception as e:
             print(f"❌ Error updating README: {e}")
     
@@ -410,7 +415,8 @@ class BrasileiroScraper:
         try:
             import sys
             force_update = False
-            if len(sys.argv) > 2 and sys.argv[2].lower() == "force":
+            # Aceita 'force' como segundo argumento OU como primeiro argumento se não houver arquivo customizado
+            if (len(sys.argv) > 1 and sys.argv[1].lower() == "force") or (len(sys.argv) > 2 and sys.argv[2].lower() == "force"):
                 force_update = True
 
             # Get current standings
@@ -426,8 +432,8 @@ class BrasileiroScraper:
                         print("📢 Forçando atualização do README...")
                     else:
                         print("📊 Standings have changed - updating README...")
-                    scores = self.compare_predictions(current_standings, predictions)
-                    self.update_readme(current_standings, predictions, scores)
+                    player_scores, raw_scores = self.compare_predictions(current_standings, predictions)
+                    self.update_readme(current_standings, predictions, raw_scores)
                     self.save_last_standings(current_standings)
                     print(f"\n✅ Successfully compared {len(current_standings)} teams")
                     print(f"✅ Calculated scores for {len(predictions)} players")
@@ -435,7 +441,7 @@ class BrasileiroScraper:
                 else:
                     print("📊 No changes in standings - README not updated")
                     print("🔄 Standings remain the same as last update")
-                    scores = self.compare_predictions(current_standings, predictions)
+                    player_scores, raw_scores = self.compare_predictions(current_standings, predictions)
                     print(f"\n✅ Successfully compared {len(current_standings)} teams")
                     print(f"✅ Calculated scores for {len(predictions)} players")
                     print("ℹ️  Use existing README for current results")
@@ -447,11 +453,10 @@ class BrasileiroScraper:
 
 def main():
     scraper = BrasileiroScraper()
-    
-    # Check if predictions file is provided as argument
     import sys
-    predictions_file = sys.argv[1] if len(sys.argv) > 1 else "bolao.json"
-    
+    # Detect 'force' argument and set predictions file correctly
+    args = [arg for arg in sys.argv[1:] if arg.lower() != "force"]
+    predictions_file = args[0] if args else "bolao.json"
     scraper.run_comparison(predictions_file)
 
 if __name__ == "__main__":
