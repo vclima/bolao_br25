@@ -320,11 +320,11 @@ class BrasileiroScraper:
             results_table.append(total_row)
             # Add ranking
             results_table.append("")
-            results_table.append("### 🏅 Classificação Final")
+            results_table.append("### 🏅 Classificação Final (pontuação normalizada 0-100)")
             results_table.append("")
             for i, (player, score) in enumerate(sorted_players, 1):
                 medal = "🥇" if i == 1 else "🥈" if i == 2 else "🥉" if i == 3 else f"{i}."
-                results_table.append(f"{medal} **{player}**: {score} pontos")
+                results_table.append(f"{medal} **{player}**: {score} pontos (normalizado)")
             
             # Read current README
             readme_path = "README.md"
