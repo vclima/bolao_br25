@@ -119,11 +119,11 @@ class BrasileiroScraper:
         
         return teams if teams else None
     
-    def scrape_ge_globo_standings(self):
-        """Scrape standings from GE Globo"""
-        url = "https://ge.globo.com/futebol/brasileirao-serie-a/"
+    def scrape_gazeta_standings(self):
+        """Scrape standings from Gazeta Esportiva"""
+        url = "https://www.gazetaesportiva.com/campeonatos/brasileiro-serie-a/"
         
-        print("Fetching standings from GE Globo...")
+        print("Fetching standings from Gazeta Esportiva...")
         html_content = self.fetch_url(url)
         
         if not html_content:
@@ -131,27 +131,89 @@ class BrasileiroScraper:
         
         teams = []
         
-        # Look for team data in JavaScript content
-        # Pattern to find team objects with position, name, and points
-        team_pattern = r'"equipe_id":\s*(\d+)[^}]*?"nome_popular":\s*"([^"]+)"[^}]*?"posicao":\s*(\d+)[^}]*?"pontos":\s*(\d+)'
+        # Encontrar a tabela principal
+        table_match = re.search(r'<table[^>]*>.*?</table>', html_content, re.DOTALL)
         
-        matches = re.findall(team_pattern, html_content, re.DOTALL | re.IGNORECASE)
-        
-        if matches:
-            for match in matches:
-                equipe_id, nome, posicao, pontos = match
-                teams.append({
-                    'position': int(posicao),
-                    'team': nome,
-                    'points': pontos,
-                    'games': '0'  # Not easily available in this format
-                })
+        if table_match:
+            table = table_match.group(0)
             
-            # Sort by position
-            teams.sort(key=lambda x: x['position'])
+            # Extrair todas as linhas da tabela
+            rows = re.findall(r'<tr[^>]*>.*?</tr>', table, re.DOTALL)
             
-            # Limit to top 20 teams
-            teams = teams[:20]
+            position = 1
+            for i, row in enumerate(rows):
+                # Pular cabeçalho
+                if '<th>' in row or i == 0:
+                    continue
+                
+                # Extrair células
+                cells = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL)
+                
+                if len(cells) >= 3:  # Pelo menos posição, time, pontos
+                    # Limpar conteúdo das células
+                    clean_cells = []
+                    for cell in cells:
+                        clean_text = re.sub(r'<[^>]+>', '', cell).strip()
+                        clean_text = re.sub(r'\s+', ' ', clean_text)
+                        clean_cells.append(clean_text)
+                    
+                    # Tentar encontrar nome do time
+                    team_name = None
+                    for cell in clean_cells:
+                        # Procurar por nomes conhecidos de times
+                        known_teams = [
+                            'Flamengo', 'Palmeiras', 'Cruzeiro', 'Corinthians', 'São Paulo', 
+                            'Santos', 'Grêmio', 'Internacional', 'Atlético', 'Fluminense', 
+                            'Botafogo', 'Vasco', 'Bahia', 'Fortaleza', 'Ceará', 'Sport', 
+                            'Vitória', 'Bragantino', 'Juventude', 'Mirassol', 'Cuiabá'
+                        ]
+                        
+                        if any(team in cell for team in known_teams):
+                            team_name = cell
+                            break
+                    
+                    # Encontrar pontos (último número válido na linha)
+                    points = '0'
+                    games_played = '0'
+                    
+                    for cell in reversed(clean_cells):
+                        if cell.isdigit():
+                            num = int(cell)
+                            if num <= 114:  # Máximo de pontos possível no Brasileirão
+                                points = cell
+                                break
+                    
+                    # Tentar encontrar jogos (número entre 0-38)
+                    for cell in clean_cells:
+                        if cell.isdigit():
+                            num = int(cell)
+                            if 0 <= num <= 38:  # Número válido de jogos
+                                games_played = cell
+                                break
+                    
+                    if team_name:
+                        # Normalizar nome do time para compatibilidade
+                        if 'Atlético' in team_name:
+                            team_name = 'Atlético-MG'
+                        elif 'Bragantino' in team_name:
+                            team_name = 'Red Bull Bragantino'
+                        elif 'Paulo' in team_name:
+                            team_name = 'São Paulo'
+                        else:
+                            # Pegar apenas o nome principal do time
+                            team_name = team_name.split()[-1] if len(team_name.split()) > 1 else team_name
+                        
+                        teams.append({
+                            'position': position,
+                            'team': team_name,
+                            'points': points,
+                            'games': games_played
+                        })
+                        
+                        position += 1
+                        
+                        if position > 20:
+                            break
         
         return teams if teams else None
     
@@ -159,10 +221,10 @@ class BrasileiroScraper:
         """Get current standings by scraping from online sources"""
         print("Scraping current Brazilian Championship 2025 standings...")
         
-        # Try multiple sources
+        # Try multiple sources in order of reliability
         sources = [
             ("ESPN Brazil", self.scrape_espn_standings),
-            ("GE Globo", self.scrape_ge_globo_standings)
+            ("Gazeta Esportiva", self.scrape_gazeta_standings),
         ]
         
         for source_name, scraper_func in sources:

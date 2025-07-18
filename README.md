@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-18 13:35:44
+**Última Atualização:** 2025-07-18 13:52:53
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -129,9 +129,9 @@ O sistema gera automaticamente um gráfico de linhas mostrando a evolução das 
 
 ## 🌐 Fontes de Dados
 
-O script tenta automaticamente múltiplas fontes:
+O script tenta automaticamente múltiplas fontes confiáveis:
 1. **ESPN Brasil** (`espn.com.br`) - Fonte principal
-2. **GE Globo** (`ge.globo.com`) - Fonte alternativa
+2. **Gazeta Esportiva** (`gazetaesportiva.com`) - Fonte alternativa confiável
 
 ## 💻 Exemplo de Saída
 
