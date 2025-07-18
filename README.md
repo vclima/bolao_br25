@@ -2,10 +2,10 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-17 21:00:52
+**Última Atualização:** 2025-07-17 21:13:07
 
 | Time | Real | Victor | Julio | Luca |
-|------|------|--------|-------|------|
+|------|------|------|------|------|
 | Flamengo | 1 | 2°(19p) | 1°(20p) | 1°(20p) |
 | Cruzeiro | 2 | 14°(8p) | 17°(5p) | 11°(11p) |
 | Red Bull Bragantino | 3 | 17°(6p) | 16°(7p) | 15°(8p) |
@@ -27,6 +27,12 @@
 | Fortaleza | 19 | 8°(9p) | 5°(6p) | 10°(11p) |
 | Sport | 20 | 19°(19p) | 20°(20p) | 16°(16p) |
 | **TOTAL** | | **314** | **304** | **294** |
+
+### 🏅 Classificação Final
+
+🥇 **Victor**: 314 pontos
+🥈 **Julio**: 304 pontos
+🥉 **Luca**: 294 pontos
 
 ### 🏅 Classificação Final
 
