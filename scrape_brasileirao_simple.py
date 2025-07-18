@@ -207,6 +207,7 @@ class BrasileiroScraper:
         
         # Calculate scores for each player
         player_scores = {}
+        raw_scores = {}
         
         print(f"\n🏆 BRASILEIRÃO 2025 - BOLÃO RESULTS")
         print(f"Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -228,19 +229,17 @@ class BrasileiroScraper:
             print(f"{original_team_name:<20} {actual_pos:<8}", end="")
             
             for player, player_predictions in predictions.items():
-                if player not in player_scores:
-                    player_scores[player] = 0
-                
+                if player not in raw_scores:
+                    raw_scores[player] = 0
                 # Find predicted position for this team
                 predicted_pos = None
                 for pos, predicted_team in player_predictions.items():
                     if predicted_team == team_name:
                         predicted_pos = int(pos)
                         break
-                
                 if predicted_pos is not None:
                     score = self.calculate_score(predicted_pos, actual_pos)
-                    player_scores[player] += score
+                    raw_scores[player] += score
                     print(f"{predicted_pos}°({score}p) ", end="")
                 else:
                     print("--       ", end="")
@@ -250,16 +249,17 @@ class BrasileiroScraper:
         # Display final scores
         print("-" * 120)
         print(f"{'FINAL SCORES:':<20} {'':>8}", end="")
+        player_scores = {}
         for player in predictions.keys():
-            print(f"{player_scores.get(player, 0):<12}", end="")
+            norm_score = max(0, min(100, round((raw_scores.get(player, 0) - 200) / 2)))
+            player_scores[player] = norm_score
+            print(f"{norm_score:<12}", end="")
         print()
-        
         # Ranking
         print(f"\n🏅 RANKING:")
         sorted_players = sorted(player_scores.items(), key=lambda x: x[1], reverse=True)
         for i, (player, score) in enumerate(sorted_players, 1):
-            print(f"{i}. {player}: {score} points")
-        
+            print(f"{i}. {player}: {score} pontos")
         return player_scores
     
     def update_readme(self, actual_standings, predictions, player_scores):
@@ -318,7 +318,6 @@ class BrasileiroScraper:
             for player in player_names:
                 total_row += f" **{player_scores[player]}** |"
             results_table.append(total_row)
-            
             # Add ranking
             results_table.append("")
             results_table.append("### 🏅 Classificação Final")

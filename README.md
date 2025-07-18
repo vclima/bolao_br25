@@ -65,14 +65,22 @@ python scrape_brasileirao_simple.py minhas_previsoes.json
 - ✅ Exibe classificação final com medalhas
 - ✅ Usa apenas bibliotecas nativas do Python
 
+
 ## 🎯 Sistema de Pontuação
 
 Para cada time, os jogadores recebem:
 - **20 pontos** para acerto exato da posição
 - **19 pontos** para 1 posição de diferença
 - **18 pontos** para 2 posições de diferença
-- **...e assim por diante**
-- **0 pontos** para 20+ posições de diferença
+- ...até **1 ponto** para 19 posições de diferença
+- **0 pontos** para 20 ou mais posições de diferença
+
+**Pontuação total mínima possível:** 200 pontos
+**Pontuação total máxima possível:** 400 pontos
+
+**Pontuação final normalizada:**
+`pontuação_normalizada = (pontuação_total - 200) / 2`
+O resultado final sempre estará entre 0 e 100.
 
 ## 🌐 Fontes de Dados
 
