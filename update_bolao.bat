@@ -6,7 +6,12 @@ echo ===============================================
 echo.
 
 echo [1/5] Executando script do bolao...
-python scrape_brasileirao_simple.py
+    REM Se o primeiro argumento for -f, força atualização ignorando checagem
+    if "%1"=="-f" (
+        python scrape_brasileirao_simple.py force
+    ) else (
+        python scrape_brasileirao_simple.py
+    )
 if %errorlevel% neq 0 (
     echo ERRO: Falha ao executar o script Python
     pause

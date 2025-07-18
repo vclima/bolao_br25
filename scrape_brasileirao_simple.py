@@ -409,45 +409,53 @@ class BrasileiroScraper:
     def run_comparison(self, predictions_file="bolao.json"):
         """Main method to run the comparison"""
         try:
+            import sys
+            force_update = False
+            if len(sys.argv) > 2 and sys.argv[2].lower() == "force":
+                force_update = True
+
             # Get current standings
             current_standings = self.get_current_standings()
-            
+
             # Load predictions
             predictions = self.load_predictions(predictions_file)
-            
+
             if current_standings and predictions:
                 # Load last standings for comparison
                 last_standings = self.load_last_standings()
-                
-                # Check if standings have changed
-                if self.standings_changed(current_standings, last_standings):
-                    print("📊 Standings have changed - updating README...")
-                    
+
+                # Check if standings have changed or force update
+                if force_update or self.standings_changed(current_standings, last_standings):
+                    if force_update:
+                        print("� Forçando atualização do README...")
+                    else:
+                        print("�📊 Standings have changed - updating README...")
+
                     # Compare and calculate scores
                     scores = self.compare_predictions(current_standings, predictions)
-                    
+
                     # Update README with results
                     self.update_readme(current_standings, predictions, scores)
-                    
+
                     # Save current standings for next comparison
                     self.save_last_standings(current_standings)
-                    
+
                     print(f"\n✅ Successfully compared {len(current_standings)} teams")
                     print(f"✅ Calculated scores for {len(predictions)} players")
                     print("✅ README updated with new standings")
                 else:
                     print("📊 No changes in standings - README not updated")
                     print("🔄 Standings remain the same as last update")
-                    
+
                     # Still show current scores for user reference
                     scores = self.compare_predictions(current_standings, predictions)
                     print(f"\n✅ Successfully compared {len(current_standings)} teams")
                     print(f"✅ Calculated scores for {len(predictions)} players")
                     print("ℹ️  Use existing README for current results")
-                    
+
             else:
                 print("❌ Failed to load data")
-                
+
         except Exception as e:
             print(f"❌ Error: {e}")
 
