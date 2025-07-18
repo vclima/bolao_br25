@@ -420,38 +420,25 @@ class BrasileiroScraper:
             predictions = self.load_predictions(predictions_file)
 
             if current_standings and predictions:
-                # Load last standings for comparison
                 last_standings = self.load_last_standings()
-
-                # Check if standings have changed or force update
                 if force_update or self.standings_changed(current_standings, last_standings):
                     if force_update:
-                        print("� Forçando atualização do README...")
+                        print("📢 Forçando atualização do README...")
                     else:
-                        print("�📊 Standings have changed - updating README...")
-
-                    # Compare and calculate scores
+                        print("📊 Standings have changed - updating README...")
                     scores = self.compare_predictions(current_standings, predictions)
-
-                    # Update README with results
                     self.update_readme(current_standings, predictions, scores)
-
-                    # Save current standings for next comparison
                     self.save_last_standings(current_standings)
-
                     print(f"\n✅ Successfully compared {len(current_standings)} teams")
                     print(f"✅ Calculated scores for {len(predictions)} players")
                     print("✅ README updated with new standings")
                 else:
                     print("📊 No changes in standings - README not updated")
                     print("🔄 Standings remain the same as last update")
-
-                    # Still show current scores for user reference
                     scores = self.compare_predictions(current_standings, predictions)
                     print(f"\n✅ Successfully compared {len(current_standings)} teams")
                     print(f"✅ Calculated scores for {len(predictions)} players")
                     print("ℹ️  Use existing README for current results")
-
             else:
                 print("❌ Failed to load data")
 

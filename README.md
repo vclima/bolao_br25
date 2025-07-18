@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-17 22:48:34
+**Última Atualização:** 2025-07-17 23:22:28
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -26,13 +26,13 @@
 | Juventude | 18 | 15°(17p) | 12°(14p) | 12°(14p) |
 | Fortaleza | 19 | 8°(9p) | 5°(6p) | 10°(11p) |
 | Sport | 20 | 19°(19p) | 20°(20p) | 16°(16p) |
-| **TOTAL** | | **314** | **302** | **292** |
+| **TOTAL (normalizado 0-100)** | | **57** | **51** | **46** |
 
-### 🏅 Classificação Final
+### 🏅 Classificação Final (pontuação normalizada 0-100)
 
-🥇 **Victor**: 314 pontos
-🥈 **Julio**: 302 pontos
-🥉 **Luca**: 292 pontos
+🥇 **Victor**: 57 pontos (normalizado)
+🥈 **Julio**: 51 pontos (normalizado)
+🥉 **Luca**: 46 pontos (normalizado)
 ## 📖 Sobre o Projeto
 
 Script em Python que captura em tempo real a classificação do Campeonato Brasileiro 2025 e compara com as previsões dos jogadores para calcular a pontuação do bolão.
