@@ -368,6 +368,45 @@ class BrasileiroScraper:
         except Exception as e:
             print(f"❌ Error updating README: {e}")
     
+    def save_last_standings(self, standings, filename="last_standings.json"):
+        """Save current standings to a file for comparison"""
+        try:
+            with open(filename, 'w', encoding='utf-8') as f:
+                json.dump(standings, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"❌ Error saving last standings: {e}")
+    
+    def load_last_standings(self, filename="last_standings.json"):
+        """Load last standings from file"""
+        try:
+            if os.path.exists(filename):
+                with open(filename, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+        except Exception as e:
+            print(f"❌ Error loading last standings: {e}")
+        return None
+    
+    def standings_changed(self, current_standings, last_standings):
+        """Check if standings have changed since last update"""
+        if not last_standings:
+            return True  # No previous data, so it's a change
+        
+        if len(current_standings) != len(last_standings):
+            return True  # Different number of teams
+        
+        # Compare each team's position
+        for i, current_team in enumerate(current_standings):
+            if i >= len(last_standings):
+                return True  # More teams than before
+            
+            last_team = last_standings[i]
+            if (current_team['position'] != last_team['position'] or 
+                current_team['team'] != last_team['team'] or
+                current_team['points'] != last_team['points']):
+                return True  # Position, team, or points changed
+        
+        return False  # No changes detected
+    
     def run_comparison(self, predictions_file="bolao.json"):
         """Main method to run the comparison"""
         try:
@@ -378,14 +417,35 @@ class BrasileiroScraper:
             predictions = self.load_predictions(predictions_file)
             
             if current_standings and predictions:
-                # Compare and calculate scores
-                scores = self.compare_predictions(current_standings, predictions)
+                # Load last standings for comparison
+                last_standings = self.load_last_standings()
                 
-                # Update README with results
-                self.update_readme(current_standings, predictions, scores)
-                
-                print(f"\n✅ Successfully compared {len(current_standings)} teams")
-                print(f"✅ Calculated scores for {len(predictions)} players")
+                # Check if standings have changed
+                if self.standings_changed(current_standings, last_standings):
+                    print("📊 Standings have changed - updating README...")
+                    
+                    # Compare and calculate scores
+                    scores = self.compare_predictions(current_standings, predictions)
+                    
+                    # Update README with results
+                    self.update_readme(current_standings, predictions, scores)
+                    
+                    # Save current standings for next comparison
+                    self.save_last_standings(current_standings)
+                    
+                    print(f"\n✅ Successfully compared {len(current_standings)} teams")
+                    print(f"✅ Calculated scores for {len(predictions)} players")
+                    print("✅ README updated with new standings")
+                else:
+                    print("📊 No changes in standings - README not updated")
+                    print("🔄 Standings remain the same as last update")
+                    
+                    # Still show current scores for user reference
+                    scores = self.compare_predictions(current_standings, predictions)
+                    print(f"\n✅ Successfully compared {len(current_standings)} teams")
+                    print(f"✅ Calculated scores for {len(predictions)} players")
+                    print("ℹ️  Use existing README for current results")
+                    
             else:
                 print("❌ Failed to load data")
                 

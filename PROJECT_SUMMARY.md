@@ -12,6 +12,8 @@ Sistema automatizado para acompanhar o bolão do Brasileirão 2025, comparando p
   - Normalização de nomes de times
   - Comparação com palpites em `bolao.json`
   - Cálculo de pontuações
+  - **Detecção de mudanças** - só atualiza README se a classificação mudou
+  - Salva classificação atual em `last_standings.json` para comparação
   - Atualização automática do README
   - Saída em português
 
