@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-18 13:26:44
+**Última Atualização:** 2025-07-18 13:29:07
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -36,7 +36,13 @@
 
 ### 📈 Histórico de Desempenho
 
-*Aguardando mais dados para mostrar histórico...*
+![Gráfico de Performance](performance_chart.png)
+
+| Rodada | Victor | Luca | Julio |
+|-------|-------|-------|-------|
+| R15 | 57 | 46 | 51 |
+
+**Tendência (últimas 2 medições):**
 
 ## 📖 Sobre o Projeto
 

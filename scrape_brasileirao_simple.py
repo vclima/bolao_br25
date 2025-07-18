@@ -346,7 +346,7 @@ class BrasileiroScraper:
             graph_lines.append("")
             
             # Generate visual chart if matplotlib is available
-            if MATPLOTLIB_AVAILABLE and len(history) > 1:
+            if MATPLOTLIB_AVAILABLE and len(history) >= 1:
                 try:
                     self.create_performance_chart(history, players)
                     graph_lines.append("![Gráfico de Performance](performance_chart.png)")
@@ -355,7 +355,7 @@ class BrasileiroScraper:
                     print(f"⚠️ Warning: Could not generate chart: {e}")
             
             # Create a simple ASCII table showing score progression
-            if len(history) > 1:
+            if len(history) >= 1:
                 # Table header
                 header = "| Rodada | " + " | ".join([f"{player}" for player in players]) + " |"
                 separator = "|" + "|".join(["-------"] * (len(players) + 1)) + "|"
@@ -438,9 +438,16 @@ class BrasileiroScraper:
                 scores.append(entry['normalized_scores'].get(player, 0))
             
             color = colors[i % len(colors)]
-            ax.plot(rounds, scores, marker='o', linewidth=2.5, markersize=8, 
-                   label=player, color=color, markerfacecolor='white', 
-                   markeredgecolor=color, markeredgewidth=2)
+            
+            if len(rounds) == 1:
+                # Single point - show as dot with larger marker
+                ax.scatter(rounds, scores, s=150, color=color, label=player, 
+                          edgecolors='white', linewidth=2, zorder=5)
+            else:
+                # Multiple points - show as line with markers
+                ax.plot(rounds, scores, marker='o', linewidth=2.5, markersize=8, 
+                       label=player, color=color, markerfacecolor='white', 
+                       markeredgecolor=color, markeredgewidth=2)
         
         # Customize the chart
         ax.set_title('Evolução do Desempenho - Bolão Brasileirão 2025', 
@@ -452,9 +459,16 @@ class BrasileiroScraper:
         ax.set_ylim(0, 100)
         
         # Format x-axis for rounds
-        ax.set_xlim(min(rounds) - 0.5, max(rounds) + 0.5)
-        ax.set_xticks(rounds)
-        ax.set_xticklabels([f'R{r}' for r in rounds])
+        if len(rounds) == 1:
+            # Single point - show with padding
+            ax.set_xlim(rounds[0] - 1, rounds[0] + 1)
+            ax.set_xticks([rounds[0]])
+            ax.set_xticklabels([f'R{rounds[0]}'])
+        else:
+            # Multiple points - normal range
+            ax.set_xlim(min(rounds) - 0.5, max(rounds) + 0.5)
+            ax.set_xticks(rounds)
+            ax.set_xticklabels([f'R{r}' for r in rounds])
         
         # Add grid
         ax.grid(True, alpha=0.3, linestyle='--')
