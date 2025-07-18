@@ -314,7 +314,7 @@ class BrasileiroScraper:
                 results_table.append(row)
             
             # Add total scores row (pontuação normalizada)
-            total_row = "| **TOTAL (normalizado)** | |"
+            total_row = "| **TOTAL (normalizado 0-100)** | |"
             for player in player_names:
                 total_row += f" **{player_scores[player]}** |"
             results_table.append(total_row)
@@ -331,15 +331,15 @@ class BrasileiroScraper:
             if os.path.exists(readme_path):
                 with open(readme_path, 'r', encoding='utf-8') as f:
                     readme_content = f.read()
-                
+
                 # Find and replace the results section
                 results_section = "\n".join(results_table)
-                
+
                 # Check if results section exists
-                if "## 🏆 Resultados Atuais" in readme_content:
+                import re
+                pattern = r'(## 🏆 Resultados Atuais.*?)(?=\n## |\Z)'
+                if re.search(pattern, readme_content, flags=re.DOTALL):
                     # Replace existing results section - match everything from results until next ## or end
-                    import re
-                    pattern = r'## 🏆 Resultados Atuais.*?(?=\n## |\Z)'
                     new_content = re.sub(pattern, results_section, readme_content, flags=re.DOTALL)
                 else:
                     # Add results section at the beginning after the title
@@ -349,18 +349,17 @@ class BrasileiroScraper:
                         if line.startswith('# '):
                             title_line = i
                             break
-                    
                     # Insert results after title
                     lines.insert(title_line + 1, '')
                     lines.insert(title_line + 2, results_section)
                     new_content = '\n'.join(lines)
-                
+
                 # Write back to README
                 with open(readme_path, 'w', encoding='utf-8') as f:
                     f.write(new_content)
-                
+
                 print(f"✅ Updated README.md with latest results")
-                
+
             else:
                 print("❌ README.md not found")
                 
