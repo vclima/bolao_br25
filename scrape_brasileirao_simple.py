@@ -313,12 +313,12 @@ class BrasileiroScraper:
                 
                 results_table.append(row)
             
-            # Add total scores row
-            total_row = "| **TOTAL** | |"
+            # Add total scores row (pontuação normalizada)
+            total_row = "| **TOTAL (normalizado)** | |"
             for player in player_names:
                 total_row += f" **{player_scores[player]}** |"
             results_table.append(total_row)
-            # Add ranking
+            # Add ranking (pontuação normalizada)
             results_table.append("")
             results_table.append("### 🏅 Classificação Final (pontuação normalizada 0-100)")
             results_table.append("")
