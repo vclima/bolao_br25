@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-17 21:18:45
+**Última Atualização:** 2025-07-17 21:19:24
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -27,6 +27,12 @@
 | Fortaleza | 19 | 8°(9p) | 5°(6p) | 10°(11p) |
 | Sport | 20 | 19°(19p) | 20°(20p) | 16°(16p) |
 | **TOTAL** | | **314** | **304** | **294** |
+
+### 🏅 Classificação Final
+
+🥇 **Victor**: 314 pontos
+🥈 **Julio**: 304 pontos
+🥉 **Luca**: 294 pontos
 
 ### 🏅 Classificação Final
 
