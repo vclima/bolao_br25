@@ -353,13 +353,23 @@ class BrasileiroScraper:
                 
                 # Check if results section exists
                 if "## 🏆 Resultados Atuais" in readme_content:
-                    # Replace existing results section
+                    # Replace existing results section - match everything from results until next ## or end
                     import re
-                    pattern = r'## 🏆 Resultados Atuais.*?(?=##|\Z)'
-                    new_content = re.sub(pattern, results_section + "\n\n", readme_content, flags=re.DOTALL)
+                    pattern = r'## 🏆 Resultados Atuais.*?(?=\n## |\Z)'
+                    new_content = re.sub(pattern, results_section, readme_content, flags=re.DOTALL)
                 else:
-                    # Add results section at the end
-                    new_content = readme_content + "\n\n" + results_section
+                    # Add results section at the beginning after the title
+                    lines = readme_content.split('\n')
+                    title_line = 0
+                    for i, line in enumerate(lines):
+                        if line.startswith('# '):
+                            title_line = i
+                            break
+                    
+                    # Insert results after title
+                    lines.insert(title_line + 1, '')
+                    lines.insert(title_line + 2, results_section)
+                    new_content = '\n'.join(lines)
                 
                 # Write back to README
                 with open(readme_path, 'w', encoding='utf-8') as f:
