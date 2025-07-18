@@ -35,12 +35,19 @@ git add .
 echo.
 echo [5/5] Fazendo commit e push...
 git diff --cached --quiet
-if %errorlevel% neq 0 (
+if errorlevel 1 (
+    echo Alteracoes detectadas. Fazendo commit...
     git commit -m "Atualizacao automatica - %date% %time%"
+    if errorlevel 1 (
+        echo ERRO: Falha ao fazer commit
+        pause
+        exit /b 1
+    )
+    echo Fazendo push para o repositorio remoto...
     git push origin main
-    if %errorlevel% neq 0 (
+    if errorlevel 1 (
         echo ERRO: Falha ao fazer push. Verifique se o repositorio remoto esta configurado.
-        echo Execute: git remote add origin https://github.com/SEU_USUARIO/bolao_br25.git
+        echo Execute: git remote add origin https://github.com/vclima/bolao_br25.git
         pause
         exit /b 1
     )
