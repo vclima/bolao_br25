@@ -115,44 +115,29 @@ class BrasileiroScraper:
         
         teams = []
         
-        # Look for classification table
-        table_pattern = r'<table[^>]*class="[^"]*classificacao[^"]*"[^>]*>(.*?)</table>'
-        table_match = re.search(table_pattern, html_content, re.DOTALL | re.IGNORECASE)
+        # Look for team data in JavaScript content
+        # Pattern to find team objects with position, name, and points
+        team_pattern = r'"equipe_id":\s*(\d+)[^}]*?"nome_popular":\s*"([^"]+)"[^}]*?"posicao":\s*(\d+)[^}]*?"pontos":\s*(\d+)'
         
-        if table_match:
-            table_content = table_match.group(1)
-            rows = re.findall(r'<tr[^>]*>(.*?)</tr>', table_content, re.DOTALL | re.IGNORECASE)
+        matches = re.findall(team_pattern, html_content, re.DOTALL | re.IGNORECASE)
+        
+        if matches:
+            for match in matches:
+                equipe_id, nome, posicao, pontos = match
+                teams.append({
+                    'position': int(posicao),
+                    'team': nome,
+                    'points': pontos,
+                    'games': '0'  # Not easily available in this format
+                })
             
-            position = 1
-            for row in rows:
-                # Skip header
-                if 'th>' in row:
-                    continue
-                
-                # Look for team names
-                team_match = re.search(r'<td[^>]*>.*?([A-Za-z\s]+(?:Flamengo|Palmeiras|São Paulo|Corinthians|Grêmio|Internacional|Atlético|Santos|Fluminense|Botafogo|Vasco|Bahia|Cruzeiro|Fortaleza|Ceará|Sport|Vitória|Athletico|Bragantino|Juventude|Mirassol)[A-Za-z\s]*)', row, re.IGNORECASE)
-                
-                if team_match:
-                    team_name = team_match.group(1).strip()
-                    
-                    # Extract cell data
-                    cells = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL | re.IGNORECASE)
-                    clean_cells = []
-                    for cell in cells:
-                        clean_text = re.sub(r'<[^>]+>', '', cell).strip()
-                        clean_cells.append(clean_text)
-                    
-                    if clean_cells:
-                        teams.append({
-                            'position': position,
-                            'team': team_name,
-                            'points': clean_cells[2] if len(clean_cells) > 2 else '0',
-                            'games': clean_cells[1] if len(clean_cells) > 1 else '0'
-                        })
-                        position += 1
-                        
-                        if position > 20:
-                            break
+            # Sort by position
+            teams.sort(key=lambda x: x['position'])
+            
+            # Limit to top 20 teams
+            teams = teams[:20]
+        
+        return teams if teams else None
         
         return teams if teams else None
     

@@ -2,12 +2,12 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-17 21:29:42
+**Última Atualização:** 2025-07-17 21:41:17
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
-| Flamengo | 1 | 2°(19p) | 1°(20p) | 1°(20p) |
-| Cruzeiro | 2 | 14°(8p) | 17°(5p) | 11°(11p) |
+| Cruzeiro | 1 | 14°(7p) | 17°(4p) | 11°(10p) |
+| Flamengo | 2 | 2°(20p) | 1°(19p) | 1°(19p) |
 | Red Bull Bragantino | 3 | 17°(6p) | 16°(7p) | 15°(8p) |
 | Bahia | 4 | 4°(20p) | 6°(18p) | 7°(17p) |
 | Palmeiras | 5 | 5°(20p) | 4°(19p) | 2°(17p) |
@@ -26,13 +26,13 @@
 | Juventude | 18 | 15°(17p) | 12°(14p) | 12°(14p) |
 | Fortaleza | 19 | 8°(9p) | 5°(6p) | 10°(11p) |
 | Sport | 20 | 19°(19p) | 20°(20p) | 16°(16p) |
-| **TOTAL** | | **314** | **304** | **294** |
+| **TOTAL** | | **314** | **302** | **292** |
 
 ### 🏅 Classificação Final
 
 🥇 **Victor**: 314 pontos
-🥈 **Julio**: 304 pontos
-🥉 **Luca**: 294 pontos
+🥈 **Julio**: 302 pontos
+🥉 **Luca**: 292 pontos
 ## 📖 Sobre o Projeto
 
 Script em Python que captura em tempo real a classificação do Campeonato Brasileiro 2025 e compara com as previsões dos jogadores para calcular a pontuação do bolão.
