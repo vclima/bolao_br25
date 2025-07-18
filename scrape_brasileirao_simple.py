@@ -99,11 +99,18 @@ class BrasileiroScraper:
                         clean_text = re.sub(r'<[^>]+>', '', cell).strip()
                         clean_cells.append(clean_text)
                     
+                    # Try to find games played (usually 2nd or 3rd column)
+                    games_played = '0'
+                    for i, cell in enumerate(clean_cells[1:4]):  # Check columns 1-3
+                        if cell.isdigit() and 0 <= int(cell) <= 38:  # Valid range for games in Brasileirão
+                            games_played = cell
+                            break
+                    
                     teams.append({
                         'position': position,
                         'team': team_name,
                         'points': clean_cells[-1] if clean_cells else '0',  # Points usually last column
-                        'games': clean_cells[1] if len(clean_cells) > 1 else '0'
+                        'games': games_played
                     })
                     position += 1
                     
@@ -267,20 +274,30 @@ class BrasileiroScraper:
     
 
     def get_current_round(self, standings):
-        """Calculate current round based on maximum games played by any team"""
+        """Calculate last completed round based on maximum games played by any team"""
         if not standings:
             return 1
         
         max_games = 0
+        games_found = False
+        
         for team_data in standings:
             try:
-                games = int(team_data.get('games', 0))
-                max_games = max(max_games, games)
+                games = team_data.get('games', '0')
+                if games and games != '0':
+                    games_int = int(games)
+                    max_games = max(max_games, games_int)
+                    games_found = True
             except (ValueError, TypeError):
                 continue
         
-        # Round is games + 1 (next round to be played)
-        return max_games + 1 if max_games > 0 else 1
+        # If no valid game data found, assume early in season (round 1)
+        if not games_found or max_games == 0:
+            print("⚠️ Dados de jogos não encontrados - assumindo início da temporada (Rodada 1)")
+            return 1
+        
+        # Return the last completed round (maximum games played)
+        return max_games
 
     def save_score_history(self, normalized_scores, raw_scores, current_round):
         """Save current scores to history for graph generation"""

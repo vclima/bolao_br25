@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-18 13:29:07
+**Última Atualização:** 2025-07-18 13:35:44
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -40,7 +40,7 @@
 
 | Rodada | Victor | Luca | Julio |
 |-------|-------|-------|-------|
-| R15 | 57 | 46 | 51 |
+| R14 | 57 | 46 | 51 |
 
 **Tendência (últimas 2 medições):**
 
