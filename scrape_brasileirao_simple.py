@@ -11,6 +11,15 @@ import urllib.parse
 import ssl
 import re
 from datetime import datetime
+import base64
+
+try:
+    import matplotlib.pyplot as plt
+    import matplotlib.dates as mdates
+    from matplotlib.backends.backend_agg import FigureCanvasAgg
+    MATPLOTLIB_AVAILABLE = True
+except ImportError:
+    MATPLOTLIB_AVAILABLE = False
 
 class BrasileiroScraper:
     def __init__(self):
@@ -257,12 +266,239 @@ class BrasileiroScraper:
         return player_scores, raw_scores
     
 
+    def get_current_round(self, standings):
+        """Calculate current round based on maximum games played by any team"""
+        if not standings:
+            return 1
+        
+        max_games = 0
+        for team_data in standings:
+            try:
+                games = int(team_data.get('games', 0))
+                max_games = max(max_games, games)
+            except (ValueError, TypeError):
+                continue
+        
+        # Round is games + 1 (next round to be played)
+        return max_games + 1 if max_games > 0 else 1
+
+    def save_score_history(self, normalized_scores, raw_scores, current_round):
+        """Save current scores to history for graph generation"""
+        history_file = "score_history.json"
+        
+        try:
+            # Load existing history
+            history = []
+            if os.path.exists(history_file):
+                with open(history_file, 'r', encoding='utf-8') as f:
+                    history = json.load(f)
+            
+            # Create new entry
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            new_entry = {
+                'timestamp': timestamp,
+                'round': current_round,
+                'normalized_scores': normalized_scores,
+                'raw_scores': raw_scores
+            }
+            
+            # Check if scores have changed from last entry
+            if history and len(history) > 0:
+                last_entry = history[-1]
+                if last_entry.get('normalized_scores') == normalized_scores:
+                    print("📊 Scores unchanged - not adding to history")
+                    return False
+            
+            history.append(new_entry)
+            
+            # Save updated history
+            with open(history_file, 'w', encoding='utf-8') as f:
+                json.dump(history, f, indent=2, ensure_ascii=False)
+                
+            print(f"📈 Score history updated: Rodada {current_round} - {timestamp}")
+            return True
+            
+        except Exception as e:
+            print(f"❌ Error saving score history: {e}")
+            return False
+
+    def generate_score_graph(self):
+        """Generate visual score graph for README"""
+        history_file = "score_history.json"
+        
+        if not os.path.exists(history_file):
+            return ["", "### 📈 Histórico de Desempenho", "", "*Nenhum histórico disponível ainda.*", ""]
+        
+        try:
+            with open(history_file, 'r', encoding='utf-8') as f:
+                history = json.load(f)
+            
+            if not history:
+                return ["", "### 📈 Histórico de Desempenho", "", "*Nenhum histórico disponível ainda.*", ""]
+            
+            # Get player names from latest entry
+            latest_entry = history[-1]
+            players = list(latest_entry['normalized_scores'].keys())
+            
+            graph_lines = []
+            graph_lines.append("")
+            graph_lines.append("### 📈 Histórico de Desempenho")
+            graph_lines.append("")
+            
+            # Generate visual chart if matplotlib is available
+            if MATPLOTLIB_AVAILABLE and len(history) > 1:
+                try:
+                    self.create_performance_chart(history, players)
+                    graph_lines.append("![Gráfico de Performance](performance_chart.png)")
+                    graph_lines.append("")
+                except Exception as e:
+                    print(f"⚠️ Warning: Could not generate chart: {e}")
+            
+            # Create a simple ASCII table showing score progression
+            if len(history) > 1:
+                # Table header
+                header = "| Rodada | " + " | ".join([f"{player}" for player in players]) + " |"
+                separator = "|" + "|".join(["-------"] * (len(players) + 1)) + "|"
+                
+                graph_lines.append(header)
+                graph_lines.append(separator)
+                
+                # Show last 10 entries to keep table manageable
+                recent_history = history[-10:]
+                
+                for entry in recent_history:
+                    round_num = entry.get('round', 'N/A')
+                    
+                    row = f"| R{round_num} |"
+                    for player in players:
+                        score = entry['normalized_scores'].get(player, 0)
+                        row += f" {score} |"
+                    
+                    graph_lines.append(row)
+                
+                # Add trend indicators
+                graph_lines.append("")
+                graph_lines.append("**Tendência (últimas 2 medições):**")
+                
+                if len(history) >= 2:
+                    current = history[-1]['normalized_scores']
+                    previous = history[-2]['normalized_scores']
+                    
+                    trends = []
+                    for player in players:
+                        current_score = current.get(player, 0)
+                        previous_score = previous.get(player, 0)
+                        diff = current_score - previous_score
+                        
+                        if diff > 0:
+                            trend = f"📈 +{diff}"
+                        elif diff < 0:
+                            trend = f"📉 {diff}"
+                        else:
+                            trend = "➡️ =0"
+                        
+                        trends.append(f"**{player}**: {trend}")
+                    
+                    graph_lines.extend([f"- {trend}" for trend in trends])
+                
+            else:
+                graph_lines.append("*Aguardando mais dados para mostrar histórico...*")
+            
+            graph_lines.append("")
+            
+            return graph_lines
+            
+        except Exception as e:
+            print(f"❌ Error generating score graph: {e}")
+            return ["", "### 📈 Histórico de Desempenho", "", f"*Erro ao gerar gráfico: {e}*", ""]
+
+    def create_performance_chart(self, history, players):
+        """Create a visual performance chart using matplotlib"""
+        if not MATPLOTLIB_AVAILABLE:
+            return
+        
+        # Configure matplotlib for better appearance
+        plt.style.use('default')
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        # Colors for each player
+        colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD']
+        
+        # Prepare data - use rounds instead of timestamps
+        rounds = []
+        for entry in history:
+            # Get round from entry, or estimate from position if not available
+            round_num = entry.get('round', len(rounds) + 1)
+            rounds.append(round_num)
+        
+        # Plot lines for each player
+        for i, player in enumerate(players):
+            scores = []
+            for entry in history:
+                scores.append(entry['normalized_scores'].get(player, 0))
+            
+            color = colors[i % len(colors)]
+            ax.plot(rounds, scores, marker='o', linewidth=2.5, markersize=8, 
+                   label=player, color=color, markerfacecolor='white', 
+                   markeredgecolor=color, markeredgewidth=2)
+        
+        # Customize the chart
+        ax.set_title('Evolução do Desempenho - Bolão Brasileirão 2025', 
+                    fontsize=16, fontweight='bold', pad=20)
+        ax.set_xlabel('Rodada', fontsize=12, fontweight='bold')
+        ax.set_ylabel('Pontuação Normalizada (0-100)', fontsize=12, fontweight='bold')
+        
+        # Set y-axis limits
+        ax.set_ylim(0, 100)
+        
+        # Format x-axis for rounds
+        ax.set_xlim(min(rounds) - 0.5, max(rounds) + 0.5)
+        ax.set_xticks(rounds)
+        ax.set_xticklabels([f'R{r}' for r in rounds])
+        
+        # Add grid
+        ax.grid(True, alpha=0.3, linestyle='--')
+        
+        # Add legend
+        ax.legend(loc='upper left', frameon=True, fancybox=True, shadow=True)
+        
+        # Highlight the latest scores
+        if len(history) > 0:
+            latest_entry = history[-1]
+            latest_round = rounds[-1]
+            for i, player in enumerate(players):
+                latest_score = latest_entry['normalized_scores'].get(player, 0)
+                color = colors[i % len(colors)]
+                ax.annotate(f'{latest_score}', 
+                           xy=(latest_round, latest_score),
+                           xytext=(10, 10), textcoords='offset points',
+                           bbox=dict(boxstyle='round,pad=0.3', fc=color, alpha=0.7),
+                           fontweight='bold', fontsize=10, color='white')
+        
+        # Improve layout
+        plt.tight_layout()
+        
+        # Save the chart
+        chart_path = "performance_chart.png"
+        plt.savefig(chart_path, dpi=150, bbox_inches='tight', 
+                   facecolor='white', edgecolor='none')
+        plt.close()
+        
+        print(f"📊 Gráfico de performance salvo em: {chart_path}")
+        
+        return chart_path
+
     def update_readme(self, actual_standings, predictions, raw_scores):
         """Update README.md with the latest results"""
         try:
             # Sort players by score (highest first)
             sorted_players = sorted(raw_scores.items(), key=lambda x: x[1], reverse=True)
             player_names = [player[0] for player in sorted_players]
+
+            # Calculate normalized scores for graph
+            normalized_scores = {}
+            for player, score in raw_scores.items():
+                normalized_scores[player] = max(0, min(100, round((score - 200) / 2)))
 
             # Generate the results table
             results_table = []
@@ -313,6 +549,7 @@ class BrasileiroScraper:
             for player in player_names:
                 total_row += f" **{raw_scores.get(player, 0)}** |"
             results_table.append(total_row)
+            
             # Add ranking (pontuação normalizada)
             results_table.append("")
             results_table.append("### 🏅 Classificação Final (pontuação normalizada 0-100)")
@@ -321,6 +558,10 @@ class BrasileiroScraper:
                 norm_score = max(0, min(100, round((score - 200) / 2)))
                 medal = "🥇" if i == 1 else "🥈" if i == 2 else "🥉" if i == 3 else f"{i}."
                 results_table.append(f"{medal} **{player}**: {norm_score} pontos")
+
+            # Generate score graph
+            graph_lines = self.generate_score_graph()
+            results_table.extend(graph_lines)
 
             # Read current README
             readme_path = "README.md"
@@ -355,6 +596,10 @@ class BrasileiroScraper:
                     f.write(new_content)
 
                 print(f"✅ Updated README.md with latest results")
+
+                # Calculate current round and save score history after successful README update
+                current_round = self.get_current_round(actual_standings)
+                self.save_score_history(normalized_scores, raw_scores, current_round)
 
             else:
                 print("❌ README.md not found")

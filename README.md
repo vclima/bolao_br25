@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-17 23:32:36
+**Última Atualização:** 2025-07-18 13:26:44
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -33,6 +33,11 @@
 🥇 **Victor**: 57 pontos
 🥈 **Julio**: 51 pontos
 🥉 **Luca**: 46 pontos
+
+### 📈 Histórico de Desempenho
+
+*Aguardando mais dados para mostrar histórico...*
+
 ## 📖 Sobre o Projeto
 
 Script em Python que captura em tempo real a classificação do Campeonato Brasileiro 2025 e compara com as previsões dos jogadores para calcular a pontuação do bolão.
@@ -41,7 +46,9 @@ Script em Python que captura em tempo real a classificação do Campeonato Brasi
 
 - **`scrape_brasileirao_simple.py`** - Script principal que captura dados e compara previsões
 - **`bolao.json`** - Previsões dos jogadores em formato JSON
-- **`requirements.txt`** - Dependências (opcional, para melhorias futuras)
+- **`requirements.txt`** - Dependências Python (matplotlib para gráficos)
+- **`performance_chart.png`** - Gráfico visual gerado automaticamente
+- **`score_history.json`** - Histórico de pontuações (gerado automaticamente)
 
 ## 🚀 Como Usar
 
@@ -63,7 +70,9 @@ python scrape_brasileirao_simple.py minhas_previsoes.json
 - ✅ **Atualiza automaticamente este README** com tabela de resultados
 - ✅ **Ordena jogadores por pontuação total** (maior primeiro)
 - ✅ Exibe classificação final com medalhas
-- ✅ Usa apenas bibliotecas nativas do Python
+- ✅ **Histórico de desempenho com gráfico visual** usando matplotlib
+- ✅ **Detecção automática de mudanças** - só atualiza quando necessário
+- ✅ Usa apenas bibliotecas nativas do Python (matplotlib opcional para gráficos)
 
 
 ## 🎯 Sistema de Pontuação
@@ -81,6 +90,36 @@ Para cada time, os jogadores recebem:
 **Pontuação final normalizada:**
 `pontuação_normalizada = (pontuação_total - 200) / 2`
 O resultado final sempre estará entre 0 e 100.
+
+## 📈 Histórico e Gráficos
+
+O sistema automaticamente:
+- **Rastreia mudanças nas pontuações** a cada execução
+- **Salva histórico em JSON** (`score_history.json`) apenas quando há mudanças
+- **Gera gráfico visual** (`performance_chart.png`) usando matplotlib quando disponível
+- **Gera tabela de evolução** no README mostrando últimas 10 medições
+- **Indica tendências** comparando as duas últimas medições com emojis:
+  - 📈 Subiu pontuação
+  - 📉 Desceu pontuação  
+  - ➡️ Manteve pontuação
+
+### Gráfico Visual
+O sistema gera automaticamente um gráfico de linhas mostrando a evolução das pontuações ao longo das rodadas, com:
+- ✨ Cores diferentes para cada jogador
+- 📊 Anotações com as pontuações mais recentes
+- 🏁 Eixo X mostrando as rodadas do campeonato (R15, R16, etc.)
+- 🎯 Escala de 0-100 pontos normalizados
+- 📈 Rodada calculada automaticamente pelo maior número de jogos disputados
+
+### Exemplo de Saída do Histórico
+
+| Data/Hora | Victor | Luca | Julio |
+|-------|-------|-------|-------|
+| 17/07 23:32 | 55 | 44 | 49 |
+| 18/07 10:15 | 56 | 45 | 50 |
+| 18/07 13:14 | 57 | 46 | 51 |
+
+**Tendência:** Victor 📈 +1, Luca 📈 +1, Julio 📈 +1
 
 ## 🌐 Fontes de Dados
 
@@ -132,6 +171,12 @@ O arquivo de previsões deve seguir esta estrutura:
 ## 🛠️ Requisitos
 
 - Python 3.6+ (usa apenas bibliotecas nativas)
+- matplotlib (opcional, para gráficos visuais)
+
+Para instalar matplotlib:
+```bash
+pip install matplotlib
+```
 
 ## ⚙️ Como Funciona
 

@@ -5,6 +5,8 @@ __pycache__/
 
 # Project specific
 last_standings.json
+score_history.json
+performance_chart.png
 
 # Distribution / packaging
 .Python
