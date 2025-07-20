@@ -361,7 +361,7 @@ class BrasileiroScraper:
         # Return the last completed round (maximum games played)
         return max_games
 
-    def save_score_history(self, normalized_scores, raw_scores, current_round):
+    def save_score_history(self, normalized_scores, raw_scores, current_round, force_update=False):
         """Save current scores to history for graph generation"""
         history_file = "score_history.json"
         
@@ -382,20 +382,37 @@ class BrasileiroScraper:
             }
             
             # Check if scores have changed from last entry
+            scores_changed = True
+            should_add_to_history = True
+            
             if history and len(history) > 0:
                 last_entry = history[-1]
-                if last_entry.get('normalized_scores') == normalized_scores:
-                    print("📊 Scores unchanged - not adding to history")
-                    return False
-            
-            history.append(new_entry)
-            
-            # Save updated history
-            with open(history_file, 'w', encoding='utf-8') as f:
-                json.dump(history, f, indent=2, ensure_ascii=False)
                 
-            print(f"📈 Score history updated: Rodada {current_round} - {timestamp}")
-            return True
+                # Check if normalized scores are the same
+                if last_entry.get('normalized_scores') == normalized_scores:
+                    scores_changed = False
+                    
+                    # If force_update, update the timestamp of the last entry instead of adding new
+                    if force_update:
+                        print("📊 Scores unchanged but force updating - refreshing timestamp")
+                        history[-1]['timestamp'] = timestamp
+                        should_add_to_history = False
+                    else:
+                        print("📊 Scores unchanged - not adding to history")
+                        should_add_to_history = False
+            
+            # Add new entry only if scores actually changed
+            if should_add_to_history and scores_changed:
+                history.append(new_entry)
+                print(f"📈 Score history updated: Rodada {current_round} - {timestamp}")
+            
+            # Save updated history (either new entry or updated timestamp)
+            if should_add_to_history or (force_update and not scores_changed):
+                with open(history_file, 'w', encoding='utf-8') as f:
+                    json.dump(history, f, indent=2, ensure_ascii=False)
+            
+            # Always return True if we need to update graph (either scores changed or force update)
+            return scores_changed or force_update
             
         except Exception as e:
             print(f"❌ Error saving score history: {e}")
@@ -581,7 +598,7 @@ class BrasileiroScraper:
         
         return chart_path
 
-    def update_readme(self, actual_standings, predictions, raw_scores):
+    def update_readme(self, actual_standings, predictions, raw_scores, force_update=False):
         """Update README.md with the latest results"""
         try:
             # Sort players by score (highest first)
@@ -652,7 +669,15 @@ class BrasileiroScraper:
                 medal = "🥇" if i == 1 else "🥈" if i == 2 else "🥉" if i == 3 else f"{i}."
                 results_table.append(f"{medal} **{player}**: {norm_score} pontos")
 
-            # Generate score graph
+            # Calculate current round first
+            current_round = self.get_current_round(actual_standings)
+            
+            # Save score history and check if we need to regenerate graph
+            should_update_graph = self.save_score_history(normalized_scores, raw_scores, current_round, force_update)
+            
+            # Generate score graph (always regenerate if scores changed or force update)
+            if should_update_graph:
+                print("📊 Generating updated performance chart...")
             graph_lines = self.generate_score_graph()
             results_table.extend(graph_lines)
 
@@ -689,10 +714,6 @@ class BrasileiroScraper:
                     f.write(new_content)
 
                 print(f"✅ Updated README.md with latest results")
-
-                # Calculate current round and save score history after successful README update
-                current_round = self.get_current_round(actual_standings)
-                self.save_score_history(normalized_scores, raw_scores, current_round)
 
             else:
                 print("❌ README.md not found")
@@ -762,7 +783,7 @@ class BrasileiroScraper:
                     else:
                         print("📊 Standings have changed - updating README...")
                     player_scores, raw_scores = self.compare_predictions(current_standings, predictions)
-                    self.update_readme(current_standings, predictions, raw_scores)
+                    self.update_readme(current_standings, predictions, raw_scores, force_update)
                     self.save_last_standings(current_standings)
                     print(f"\n✅ Successfully compared {len(current_standings)} teams")
                     print(f"✅ Calculated scores for {len(predictions)} players")

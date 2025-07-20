@@ -5,15 +5,78 @@ echo        Bolao Brasileirao 2025 - Auto Update
 echo ===============================================
 echo.
 
-echo [1/5] Executando script do bolao...
-    REM Se o primeiro argumento for -f, força atualização ignorando checagem
-    if "%1"=="-f" (
-        python scrape_brasileirao_simple.py force
+echo [0/5] Configurando ambiente Python...
+
+REM Primeira tentativa: usar conda do condabin (mais robusto)
+where conda >nul 2>&1
+if %errorlevel% equ 0 (
+    echo Conda encontrado no PATH do sistema
+    echo Ativando ambiente 'qt'...
+    call conda activate qt
+    if %errorlevel% equ 0 (
+        echo ✅ Ambiente conda 'qt' ativado com sucesso!
+        goto :python_ready
     ) else (
-        python scrape_brasileirao_simple.py
+        echo ⚠️ Ambiente 'qt' nao encontrado, usando ambiente base do conda
+        goto :python_ready
     )
+)
+
+REM Segunda tentativa: tentar diferentes caminhos para o conda
+echo Conda nao encontrado no PATH, procurando em caminhos padrao...
+set "CONDA_PATH="
+if exist "%USERPROFILE%\anaconda3\Scripts\activate.bat" (
+    set "CONDA_PATH=%USERPROFILE%\anaconda3\Scripts\activate.bat"
+    set "CONDA_BASE=%USERPROFILE%\anaconda3"
+) else if exist "%USERPROFILE%\miniconda3\Scripts\activate.bat" (
+    set "CONDA_PATH=%USERPROFILE%\miniconda3\Scripts\activate.bat"
+    set "CONDA_BASE=%USERPROFILE%\miniconda3"
+) else if exist "C:\anaconda3\Scripts\activate.bat" (
+    set "CONDA_PATH=C:\anaconda3\Scripts\activate.bat"
+    set "CONDA_BASE=C:\anaconda3"
+)
+
+if not "%CONDA_PATH%"=="" (
+    echo Inicializando conda de: %CONDA_PATH%
+    call "%CONDA_PATH%" "%CONDA_BASE%"
+    call conda activate qt 2>nul
+    if %errorlevel% equ 0 (
+        echo ✅ Ambiente conda 'qt' ativado!
+    ) else (
+        echo ⚠️ Usando ambiente conda base
+    )
+    goto :python_ready
+)
+
+REM Terceira tentativa: usar Python do sistema
+echo Conda nao encontrado, verificando Python do sistema...
+python --version >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ✅ Python do sistema encontrado
+    goto :python_ready
+) else (
+    echo ❌ ERRO: Nem conda nem Python foram encontrados!
+    echo.
+    echo Para corrigir:
+    echo 1. Instale Anaconda/Miniconda OU
+    echo 2. Instale Python e adicione ao PATH OU
+    echo 3. Execute este script de dentro do ambiente conda
+    pause
+    exit /b 1
+)
+
+:python_ready
+echo.
+
+echo [1/5] Executando script do bolao...
+REM Se o primeiro argumento for -f, força atualização ignorando checagem
+if "%1"=="-f" (
+    python scrape_brasileirao_simple.py force
+) else (
+    python scrape_brasileirao_simple.py
+)
 if %errorlevel% neq 0 (
-    echo ERRO: Falha ao executar o script Python
+    echo ❌ ERRO: Falha ao executar o script Python
     pause
     exit /b 1
 )

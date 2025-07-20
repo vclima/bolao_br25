@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-20 13:07:38
+**Última Atualização:** 2025-07-20 15:39:41
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -41,8 +41,12 @@
 | Rodada | Victor | Luca | Julio |
 |-------|-------|-------|-------|
 | R14 | 57 | 46 | 51 |
+| R15 | 55 | 45 | 51 |
 
 **Tendência (últimas 2 medições):**
+- **Victor**: 📉 -2
+- **Luca**: 📉 -1
+- **Julio**: ➡️ =0
 
 ## 📖 Sobre o Projeto
 
@@ -55,9 +59,11 @@ Script em Python que captura em tempo real a classificação do Campeonato Brasi
 - **`requirements.txt`** - Dependências Python (matplotlib para gráficos)
 - **`performance_chart.png`** - Gráfico visual gerado automaticamente
 - **`score_history.json`** - Histórico de pontuações (gerado automaticamente)
+- **`update_bolao.bat`** - Script de automação para Windows (execução + Git)
 
 ## 🚀 Como Usar
 
+### Execução Manual
 ```bash
 python scrape_brasileirao_simple.py
 ```
@@ -66,6 +72,33 @@ Ou com um arquivo de previsões customizado:
 ```bash
 python scrape_brasileirao_simple.py minhas_previsoes.json
 ```
+
+Para forçar atualização (ignorar checagem de mudanças):
+```bash
+python scrape_brasileirao_simple.py force
+```
+
+### Execução Automatizada (Windows)
+Use o arquivo `update_bolao.bat` para execução automatizada com Git:
+
+```batch
+# Execução normal
+update_bolao.bat
+
+# Forçar atualização
+update_bolao.bat -f
+```
+
+O script `.bat` automaticamente:
+- 🐍 **Ativa o ambiente conda** (qt) se disponível
+- 📊 **Executa o scraper** e atualiza dados
+- 📝 **Faz commit e push** das alterações para o Git
+- 🔄 **Funciona fora do VS Code** com detecção automática do ambiente Python
+
+**Requisitos para o `.bat`:**
+- Windows com conda/anaconda instalado, OU Python no PATH do sistema
+- Git configurado (`git config --global user.name` e `user.email`)
+- Repositório Git inicializado e conectado ao GitHub
 
 ## ⚡ Funcionalidades
 
