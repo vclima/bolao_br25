@@ -2,37 +2,37 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-20 15:39:41
+**Última Atualização:** 2025-07-24 10:33:18
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
 | Cruzeiro | 1 | 14°(7p) | 17°(4p) | 11°(10p) |
 | Flamengo | 2 | 2°(20p) | 1°(19p) | 1°(19p) |
-| Red Bull Bragantino | 3 | 17°(6p) | 16°(7p) | 15°(8p) |
-| Bahia | 4 | 4°(20p) | 6°(18p) | 7°(17p) |
-| Palmeiras | 5 | 5°(20p) | 4°(19p) | 2°(17p) |
-| Botafogo | 6 | 3°(17p) | 7°(19p) | 5°(19p) |
+| Palmeiras | 3 | 5°(18p) | 4°(19p) | 2°(19p) |
+| Red Bull Bragantino | 4 | 17°(7p) | 16°(8p) | 15°(9p) |
+| Botafogo | 5 | 3°(18p) | 7°(18p) | 5°(20p) |
+| Bahia | 6 | 4°(18p) | 6°(20p) | 7°(19p) |
 | Mirassol | 7 | 20°(7p) | 18°(9p) | 19°(8p) |
 | Fluminense | 8 | 6°(18p) | 10°(18p) | 13°(15p) |
 | Atlético-MG | 9 | 10°(19p) | 9°(20p) | 8°(19p) |
-| Corinthians | 10 | 7°(17p) | 3°(13p) | 6°(16p) |
-| Ceará | 11 | 13°(18p) | 11°(20p) | 18°(13p) |
-| Internacional | 12 | 1°(9p) | 2°(10p) | 3°(11p) |
+| Internacional | 10 | 1°(11p) | 2°(12p) | 3°(13p) |
+| Corinthians | 11 | 7°(16p) | 3°(12p) | 6°(15p) |
+| Ceará | 12 | 13°(19p) | 11°(19p) | 18°(14p) |
 | Grêmio | 13 | 11°(18p) | 15°(18p) | 14°(19p) |
 | São Paulo | 14 | 9°(15p) | 8°(14p) | 9°(15p) |
-| Vasco da Gama | 15 | 16°(19p) | 14°(19p) | 17°(18p) |
-| Santos | 16 | 12°(16p) | 13°(17p) | 4°(8p) |
-| Vitória | 17 | 18°(19p) | 19°(18p) | 20°(17p) |
+| Vitória | 15 | 18°(17p) | 19°(16p) | 20°(15p) |
+| Vasco da Gama | 16 | 16°(20p) | 14°(18p) | 17°(19p) |
+| Santos | 17 | 12°(15p) | 13°(16p) | 4°(7p) |
 | Juventude | 18 | 15°(17p) | 12°(14p) | 12°(14p) |
 | Fortaleza | 19 | 8°(9p) | 5°(6p) | 10°(11p) |
 | Sport | 20 | 19°(19p) | 20°(20p) | 16°(16p) |
-| **TOTAL** | | **310** | **302** | **290** |
+| **TOTAL** | | **308** | **300** | **296** |
 
 ### 🏅 Classificação Final (pontuação normalizada 0-100)
 
-🥇 **Victor**: 55 pontos
-🥈 **Julio**: 51 pontos
-🥉 **Luca**: 45 pontos
+🥇 **Victor**: 54 pontos
+🥈 **Julio**: 50 pontos
+🥉 **Luca**: 48 pontos
 
 ### 📈 Histórico de Desempenho
 
@@ -42,11 +42,12 @@
 |-------|-------|-------|-------|
 | R14 | 57 | 46 | 51 |
 | R15 | 55 | 45 | 51 |
+| R16 | 54 | 48 | 50 |
 
 **Tendência (últimas 2 medições):**
-- **Victor**: 📉 -2
-- **Luca**: 📉 -1
-- **Julio**: ➡️ =0
+- **Victor**: 📉 -1
+- **Luca**: 📈 +3
+- **Julio**: 📉 -1
 
 ## 📖 Sobre o Projeto
 
