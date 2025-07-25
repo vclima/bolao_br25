@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-24 10:33:18
+**Última Atualização:** 2025-07-25 00:12:59
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
@@ -17,22 +17,22 @@
 | Atlético-MG | 9 | 10°(19p) | 9°(20p) | 8°(19p) |
 | Internacional | 10 | 1°(11p) | 2°(12p) | 3°(13p) |
 | Corinthians | 11 | 7°(16p) | 3°(12p) | 6°(15p) |
-| Ceará | 12 | 13°(19p) | 11°(19p) | 18°(14p) |
-| Grêmio | 13 | 11°(18p) | 15°(18p) | 14°(19p) |
-| São Paulo | 14 | 9°(15p) | 8°(14p) | 9°(15p) |
+| São Paulo | 12 | 9°(17p) | 8°(16p) | 9°(17p) |
+| Ceará | 13 | 13°(20p) | 11°(18p) | 18°(15p) |
+| Grêmio | 14 | 11°(17p) | 15°(19p) | 14°(20p) |
 | Vitória | 15 | 18°(17p) | 19°(16p) | 20°(15p) |
 | Vasco da Gama | 16 | 16°(20p) | 14°(18p) | 17°(19p) |
 | Santos | 17 | 12°(15p) | 13°(16p) | 4°(7p) |
 | Juventude | 18 | 15°(17p) | 12°(14p) | 12°(14p) |
 | Fortaleza | 19 | 8°(9p) | 5°(6p) | 10°(11p) |
 | Sport | 20 | 19°(19p) | 20°(20p) | 16°(16p) |
-| **TOTAL** | | **308** | **300** | **296** |
+| **TOTAL** | | **310** | **302** | **300** |
 
 ### 🏅 Classificação Final (pontuação normalizada 0-100)
 
-🥇 **Victor**: 54 pontos
-🥈 **Julio**: 50 pontos
-🥉 **Luca**: 48 pontos
+🥇 **Victor**: 55 pontos
+🥈 **Julio**: 51 pontos
+🥉 **Luca**: 50 pontos
 
 ### 📈 Histórico de Desempenho
 
@@ -43,11 +43,12 @@
 | R14 | 57 | 46 | 51 |
 | R15 | 55 | 45 | 51 |
 | R16 | 54 | 48 | 50 |
+| R16 | 55 | 50 | 51 |
 
 **Tendência (últimas 2 medições):**
-- **Victor**: 📉 -1
-- **Luca**: 📈 +3
-- **Julio**: 📉 -1
+- **Victor**: 📈 +1
+- **Luca**: 📈 +2
+- **Julio**: 📈 +1
 
 ## 📖 Sobre o Projeto
 
