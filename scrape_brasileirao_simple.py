@@ -418,6 +418,28 @@ class BrasileiroScraper:
             print(f"❌ Error saving score history: {e}")
             return False
 
+    def filter_unique_rounds(self, history):
+        """Filter history to keep only the latest entry for each round"""
+        if not history:
+            return []
+        
+        # Create a dictionary to store the latest entry for each round
+        unique_rounds = {}
+        
+        for entry in history:
+            round_num = entry.get('round', 0)
+            timestamp = entry.get('timestamp', '')
+            
+            # Keep the entry with the latest timestamp for each round
+            if round_num not in unique_rounds or timestamp > unique_rounds[round_num]['timestamp']:
+                unique_rounds[round_num] = entry
+        
+        # Convert back to list and sort by round number
+        filtered_history = list(unique_rounds.values())
+        filtered_history.sort(key=lambda x: x.get('round', 0))
+        
+        return filtered_history
+
     def generate_score_graph(self):
         """Generate visual score graph for README"""
         history_file = "score_history.json"
@@ -427,14 +449,19 @@ class BrasileiroScraper:
         
         try:
             with open(history_file, 'r', encoding='utf-8') as f:
-                history = json.load(f)
+                full_history = json.load(f)
             
-            if not history:
+            if not full_history:
                 return ["", "### 📈 Histórico de Desempenho", "", "*Nenhum histórico disponível ainda.*", ""]
             
-            # Get player names from latest entry
+            # Filter to get only the latest entry for each round
+            history = self.filter_unique_rounds(full_history)
+            
+            # Get player names from latest entry and sort by current score (descending)
             latest_entry = history[-1]
-            players = list(latest_entry['normalized_scores'].keys())
+            players_scores = [(player, score) for player, score in latest_entry['normalized_scores'].items()]
+            players_scores.sort(key=lambda x: x[1], reverse=True)  # Sort by score descending
+            players = [player for player, score in players_scores]
             
             graph_lines = []
             graph_lines.append("")
@@ -452,21 +479,21 @@ class BrasileiroScraper:
             
             # Create a simple ASCII table showing score progression
             if len(history) >= 1:
-                # Table header
+                # Table header with players ordered by current score
                 header = "| Rodada | " + " | ".join([f"{player}" for player in players]) + " |"
                 separator = "|" + "|".join(["-------"] * (len(players) + 1)) + "|"
                 
                 graph_lines.append(header)
                 graph_lines.append(separator)
                 
-                # Show last 10 entries to keep table manageable
+                # Show last 10 unique rounds to keep table manageable
                 recent_history = history[-10:]
                 
                 for entry in recent_history:
                     round_num = entry.get('round', 'N/A')
                     
                     row = f"| R{round_num} |"
-                    for player in players:
+                    for player in players:  # Use ordered players
                         score = entry['normalized_scores'].get(player, 0)
                         row += f" {score} |"
                     
@@ -481,7 +508,7 @@ class BrasileiroScraper:
                     previous = history[-2]['normalized_scores']
                     
                     trends = []
-                    for player in players:
+                    for player in players:  # Use ordered players
                         current_score = current.get(player, 0)
                         previous_score = previous.get(player, 0)
                         diff = current_score - previous_score

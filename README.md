@@ -2,53 +2,53 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-07-25 00:12:59
+**Última Atualização:** 2025-07-29 11:17:45
 
 | Time | Real | Victor | Julio | Luca |
 |------|------|------|------|------|
-| Cruzeiro | 1 | 14°(7p) | 17°(4p) | 11°(10p) |
-| Flamengo | 2 | 2°(20p) | 1°(19p) | 1°(19p) |
+| Flamengo | 1 | 2°(19p) | 1°(20p) | 1°(20p) |
+| Cruzeiro | 2 | 14°(8p) | 17°(5p) | 11°(11p) |
 | Palmeiras | 3 | 5°(18p) | 4°(19p) | 2°(19p) |
-| Red Bull Bragantino | 4 | 17°(7p) | 16°(8p) | 15°(9p) |
-| Botafogo | 5 | 3°(18p) | 7°(18p) | 5°(20p) |
-| Bahia | 6 | 4°(18p) | 6°(20p) | 7°(19p) |
+| Bahia | 4 | 4°(20p) | 6°(18p) | 7°(17p) |
+| Red Bull Bragantino | 5 | 17°(8p) | 16°(9p) | 15°(10p) |
+| Botafogo | 6 | 3°(17p) | 7°(19p) | 5°(19p) |
 | Mirassol | 7 | 20°(7p) | 18°(9p) | 19°(8p) |
-| Fluminense | 8 | 6°(18p) | 10°(18p) | 13°(15p) |
-| Atlético-MG | 9 | 10°(19p) | 9°(20p) | 8°(19p) |
+| São Paulo | 8 | 9°(19p) | 8°(20p) | 9°(19p) |
+| Ceará | 9 | 13°(16p) | 11°(18p) | 18°(11p) |
 | Internacional | 10 | 1°(11p) | 2°(12p) | 3°(13p) |
 | Corinthians | 11 | 7°(16p) | 3°(12p) | 6°(15p) |
-| São Paulo | 12 | 9°(17p) | 8°(16p) | 9°(17p) |
-| Ceará | 13 | 13°(20p) | 11°(18p) | 18°(15p) |
+| Fluminense | 12 | 6°(14p) | 10°(18p) | 13°(19p) |
+| Atlético-MG | 13 | 10°(17p) | 9°(16p) | 8°(15p) |
 | Grêmio | 14 | 11°(17p) | 15°(19p) | 14°(20p) |
 | Vitória | 15 | 18°(17p) | 19°(16p) | 20°(15p) |
 | Vasco da Gama | 16 | 16°(20p) | 14°(18p) | 17°(19p) |
 | Santos | 17 | 12°(15p) | 13°(16p) | 4°(7p) |
-| Juventude | 18 | 15°(17p) | 12°(14p) | 12°(14p) |
-| Fortaleza | 19 | 8°(9p) | 5°(6p) | 10°(11p) |
+| Fortaleza | 18 | 8°(10p) | 5°(7p) | 10°(12p) |
+| Juventude | 19 | 15°(16p) | 12°(13p) | 12°(13p) |
 | Sport | 20 | 19°(19p) | 20°(20p) | 16°(16p) |
-| **TOTAL** | | **310** | **302** | **300** |
+| **TOTAL** | | **304** | **304** | **298** |
 
 ### 🏅 Classificação Final (pontuação normalizada 0-100)
 
-🥇 **Victor**: 55 pontos
-🥈 **Julio**: 51 pontos
-🥉 **Luca**: 50 pontos
+🥇 **Victor**: 52 pontos
+🥈 **Julio**: 52 pontos
+🥉 **Luca**: 49 pontos
 
 ### 📈 Histórico de Desempenho
 
 ![Gráfico de Performance](performance_chart.png)
 
-| Rodada | Victor | Luca | Julio |
+| Rodada | Victor | Julio | Luca |
 |-------|-------|-------|-------|
-| R14 | 57 | 46 | 51 |
-| R15 | 55 | 45 | 51 |
-| R16 | 54 | 48 | 50 |
-| R16 | 55 | 50 | 51 |
+| R14 | 57 | 51 | 46 |
+| R15 | 55 | 51 | 45 |
+| R16 | 55 | 51 | 50 |
+| R17 | 52 | 52 | 49 |
 
 **Tendência (últimas 2 medições):**
-- **Victor**: 📈 +1
-- **Luca**: 📈 +2
+- **Victor**: 📉 -3
 - **Julio**: 📈 +1
+- **Luca**: 📉 -1
 
 ## 📖 Sobre o Projeto
 
