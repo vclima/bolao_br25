@@ -64,5 +64,27 @@
         "18": "Mirassol",
         "19": "Vitória",
         "20": "Sport"
+    },
+    "Enzo":{
+        "1": "Cruzeiro",
+        "2": "Flamengo",
+        "3": "Palmeiras",
+        "4": "Mirassol",
+        "5": "Internacional",
+        "6": "Bragantino",
+        "7": "Botafogo",
+        "8": "Bahia",
+        "9": "Fluminense",
+        "10": "Grêmio",
+        "11": "Corinthians",
+        "12": "Atlético-MG",
+        "13": "Ceará",
+        "14": "São Paulo",
+        "15": "Fortaleza",
+        "16": "Vasco",
+        "17": "Santos",
+        "18": "Juventude",
+        "19": "Vitória",
+        "20": "Sport"
     }
 }
