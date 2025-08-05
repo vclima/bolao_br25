@@ -2,7 +2,7 @@
 
 ## 🏆 Resultados Atuais
 
-**Última Atualização:** 2025-08-05 10:52:00
+**Última Atualização:** 2025-08-05 10:54:19
 
 | Time | Real | Enzo | Victor | Julio | Luca |
 |------|------|------|------|------|------|
