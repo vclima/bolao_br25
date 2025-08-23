@@ -7,7 +7,7 @@
         "5": "Palmeiras",
         "6": "Fluminense",
         "7": "Corinthians",
-        "8": "Fortaleza",
+        "8": "Mirassol",
         "9": "São Paulo",
         "10": "Atlético-MG",
         "11": "Grêmio",
@@ -19,7 +19,7 @@
         "17": "Bragantino",
         "18": "Vitória",
         "19": "Sport",
-        "20": "Mirassol"
+        "20": "Fortaleza"
     },
     "Luca":{
         "1": "Flamengo",
@@ -33,14 +33,14 @@
         "9": "São Paulo",
         "10": "Fortaleza",
         "11": "Cruzeiro",
-        "12": "Juventude",
+        "12": "Mirassol",
         "13": "Fluminense",
         "14": "Grêmio",
         "15": "Bragantino",
         "16": "Sport",
         "17": "Vasco",
         "18": "Ceará",
-        "19": "Mirassol",
+        "19": "Juventude",
         "20": "Vitória"
     },
     "Julio":{
@@ -48,7 +48,7 @@
         "2": "Internacional",
         "3": "Corinthians",
         "4": "Palmeiras",
-        "5": "Fortaleza",
+        "5": "Cruzeiro",
         "6": "Bahia",
         "7": "Botafogo",
         "8": "São Paulo",
@@ -60,7 +60,7 @@
         "14": "Vasco",
         "15": "Grêmio",
         "16": "Bragantino",
-        "17": "Cruzeiro",
+        "17": "Fortaleza",
         "18": "Mirassol",
         "19": "Vitória",
         "20": "Sport"
