@@ -11,13 +11,13 @@ REM Primeira tentativa: usar conda do condabin (mais robusto)
 where conda >nul 2>&1
 if %errorlevel% equ 0 (
     echo Conda encontrado no PATH do sistema
-    echo Ativando ambiente 'qt'...
-    call conda activate qt
+    echo Ativando ambiente 'base'...
+    call conda activate
     if %errorlevel% equ 0 (
-        echo ✅ Ambiente conda 'qt' ativado com sucesso!
+        echo ✅ Ambiente conda 'base' ativado com sucesso!
         goto :python_ready
     ) else (
-        echo ⚠️ Ambiente 'qt' nao encontrado, usando ambiente base do conda
+        echo ⚠️ Ambiente 'base' nao encontrado
         goto :python_ready
     )
 )
@@ -39,11 +39,9 @@ if exist "%USERPROFILE%\anaconda3\Scripts\activate.bat" (
 if not "%CONDA_PATH%"=="" (
     echo Inicializando conda de: %CONDA_PATH%
     call "%CONDA_PATH%" "%CONDA_BASE%"
-    call conda activate qt 2>nul
+    call conda activate 2>nul
     if %errorlevel% equ 0 (
-        echo ✅ Ambiente conda 'qt' ativado!
-    ) else (
-        echo ⚠️ Usando ambiente conda base
+        echo ✅ Ambiente conda 'base' ativado!
     )
     goto :python_ready
 )
